@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
@@ -17,14 +17,13 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
         libssl-dev \
         libcurl4-gnutls-dev \
         libexpat1-dev \
-        python-dev \
+        python2.7-dev \
         python-pip \
         python-gst-1.0 \
         unzip \
         wget
 RUN pip install -U  Mopidy
 RUN pip install -U Mopidy-ALSAMixer
-RUN pip install Mopidy-Yamaha
 
 RUN wget -q -O - http://apt.mopidy.com/mopidy.gpg | apt-key add -
 RUN echo "deb http://apt.mopidy.com/ stable main contrib non-free" > /etc/apt/sources.list.d/mopidy.list
@@ -33,15 +32,13 @@ RUN apt-get install -y --force-yes apt-transport-https
 RUN apt-get update && \
     apt-get install -y libspotify12 libspotify-dev \
     libffi-dev libffi6
-RUN pip install Mopidy-Spotify
-RUN pip install Mopidy-Somafm
-RUN pip install Mopidy-Soundcloud
-RUN pip install beets
-RUN pip install Mopidy-BeetsLocal
 RUN pip install Mopidy-Mobile
 RUN pip install Mopidy-MusicBox-Webclient
-RUN pip install Mopidy-Tachikoma
+
+RUN git clone https://github.com/BlackLight/mopidy-spotify.git
+RUN cd mopidy-spotify && git checkout fix/incompatible_playlists
+RUN cd mopidy-spotify && python setup.py build install
+
 COPY root /
 EXPOSE 6680 6600
 CMD ["/usr/local/bin/mopidy"]
-
