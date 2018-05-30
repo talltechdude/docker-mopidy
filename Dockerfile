@@ -21,6 +21,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
         python-pip \
         python-gst-1.0 \
         unzip \
+        alsa-utils \
         wget
 RUN pip install -U  Mopidy
 RUN pip install -U Mopidy-ALSAMixer
