@@ -35,6 +35,7 @@ RUN apt-get update && \
     libffi-dev libffi6
 RUN pip install Mopidy-Mobile
 RUN pip install Mopidy-MusicBox-Webclient
+RUN pip install Mopidy-Spotify-Web
 
 RUN git clone https://github.com/BlackLight/mopidy-spotify.git
 RUN cd mopidy-spotify && git checkout fix/incompatible_playlists
